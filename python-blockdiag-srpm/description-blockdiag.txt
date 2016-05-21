@@ -1,0 +1,15 @@
+blockdiag and its family generate diagram images from simply text file.
+
+Features:
+- Generates beautiful diagram images from simple text format (similar to
+  graphviz’s DOT format)
+- Layouts diagram elements automatically
+- Embeds to many documentations; Sphinx, Trac, Redmine and some wikis
+
+- Supports many types of diagrams
+  - block diagram (with this package)
+  - sequence diagram (with the seqdiag package)
+  - activity diagram (with the actdiag package)
+  - logical network diagram (with the nwdiag package)
+
+Enjoy documentation with blockdiag !
