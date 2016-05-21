@@ -1,0 +1,15 @@
+*-x86_64
+*-x86_64.cfg
+*.out
+*.repo
+*.rpm
+*~
+buildbotrepo.repo
+buildbotrepo/5/SRPMS/*
+buildbotrepo/5/x86_64/*
+buildbotrepo/6/SRPMS/*
+buildbotrepo/6/x86_64/*
+buildbotrepo/7/SRPMS/*
+buildbotrepo/7/x86_64/*
+repodata
+rpmbuild
