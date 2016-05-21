@@ -1,0 +1,12 @@
+Index: master/buildbot/status/web/slaves.py
+===================================================================
+--- a/master/buildbot/status/web/slaves.py
++++ b/master/buildbot/status/web/slaves.py
+@@ -115,6 +115,6 @@
+ 
+         try:
+-            max_builds = int(request.args.get('numbuilds')[0])
+-        except ValueError:
++            max_builds = int(request.args.get('numbuilds', ['10'])[0])
++        except (TypeError, ValueError):
+             max_builds = 10
