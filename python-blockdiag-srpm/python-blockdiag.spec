@@ -5,7 +5,8 @@
 
 Name:           python-%{srcname}
 Version:        1.5.3
-Release:        1%{?dist}
+#Release:        1%{?dist}
+Release:        0.1%{?dist}
 Summary:        Generate block-diagram images from text
 
 License:        ASL 2.0
@@ -26,17 +27,6 @@ BuildRequires:  python-reportlab
 BuildRequires:  python-setuptools
 BuildRequires:  python-webcolors
 
-BuildRequires:  python3-devel
-BuildRequires:  python3-docutils
-BuildRequires:  python3-funcparserlib
-BuildRequires:  python3-mock
-BuildRequires:  python3-nose
-BuildRequires:  python3-pep8
-BuildRequires:  python3-pillow
-BuildRequires:  python3-reportlab
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-webcolors
-
 # upstream uses ipagp.ttf as its default font
 BuildRequires:  ipa-pgothic-fonts
 
@@ -51,21 +41,6 @@ Requires:       python-webcolors
 %(cat %{SOURCE1})
 
 
-%package -n python3-%{srcname}
-Summary:        %{summary}
-Requires:       ipa-pgothic-fonts
-Requires:       python3-funcparserlib
-Requires:       python3-pillow
-Requires:       python3-setuptools
-Requires:       python3-webcolors
-
-
-%description -n python3-%{srcname}
-%(cat %{SOURCE1})
-
-This package installs the %{srcname} module for Python 3.
-
-
 %package -n python-%{srcname}-devel
 Summary:        Development files for python-%{srcname}
 Requires:       python-%{srcname} = %{version}-%{release}
@@ -75,41 +50,19 @@ Requires:       python-%{srcname} = %{version}-%{release}
 Development files for python-%{srcname}.
 
 
-%package -n python3-%{srcname}-devel
-Summary:        Development files for python3-%{srcname}
-Requires:       python3-%{srcname} = %{version}-%{release}
-
-
-%description -n python3-%{srcname}-devel
-Development files for python3-%{srcname}.
-
-
 %prep
 %setup -qn %{srcname}-%{version}
 %patch0001 -p1
 
 rm -rf src/*.egg-info
-rm -rf %{py3dir}
-cp -a . %{py3dir}
 
-find %{py3dir} -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python3}|'
 find           -name '*.py' | xargs sed -i '1s|^#!python|#!%{__python}|'
 
 
 %build
 %{__python2} setup.py build
 
-pushd %{py3dir}
-%{__python3} setup.py build
-popd
-
-
 %install
-pushd %{py3dir}
-%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
-mv %{buildroot}%{_bindir}/%{srcname} %{buildroot}%{_bindir}/%{srcname}-%{python3_version}
-install -pm 644 -D %{srcname}.1 %{buildroot}%{_mandir}/man1/%{srcname}-%{python3_version}.1
-popd
 
 %{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 install -pm 644 -D %{srcname}.1 %{buildroot}%{_mandir}/man1/%{srcname}.1
@@ -117,11 +70,6 @@ install -pm 644 -D %{srcname}.1 %{buildroot}%{_mandir}/man1/%{srcname}.1
 
 %check
 %{__python2} setup.py test ||:
-
-pushd %{py3dir}
-%{__python3} setup.py test ||:
-popd
-
 
 %files
 %license LICENSE
@@ -132,18 +80,6 @@ popd
 
 %files -n python-%{srcname}-devel
 %{python2_sitelib}/%{srcname}/tests
-
-
-%files -n python3-%{srcname}
-%license LICENSE
-%{_bindir}/%{srcname}-%{python3_version}
-%{_mandir}/man1/%{srcname}-%{python3_version}.1*
-%{python3_sitelib}/__pycache__/*
-%{python3_sitelib}/%{srcname}*
-
-
-%files -n python3-%{srcname}-devel
-%{python3_sitelib}/%{srcname}/tests
 
 
 %changelog
